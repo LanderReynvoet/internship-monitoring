@@ -1,0 +1,6 @@
+- name: Destroy ports with static ip
+  os_port:
+    state: absent
+    name: "{{ item.key }}"
+  with_dict: "{{ ports }}"
+

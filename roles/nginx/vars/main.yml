@@ -1,0 +1,10 @@
+---
+_apt_key:
+  - url: "http://packages.sury.org/nginx/apt.gpg"
+    id: "15058500A0235D97F5D10063B188E2B695BD4743"
+    state: "present"
+
+_apt:
+  - { state: "latest", name: "ssl-cert" }
+  - { state: "latest", name: "nginx-extras" }
+  - { state: "latest", name: "libssl-dev" }

@@ -1,0 +1,19 @@
+---
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Load configuration from file
+    include_vars:
+      file: elk-server.yml
+
+  - name: Create ports
+    include_role:
+      name: ../roles/os_port_role
+
+  - name: Build servers
+    include_role:
+      name: ../roles/os_server_static_role
+
+  - name: Assign floating IP
+    include_role:
+      name: ../roles/os_floating_ip_role

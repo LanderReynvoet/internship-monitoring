@@ -1,0 +1,16 @@
+---
+# This playbook  will deploy wbeserver
+- hosts: Debian-Webserver
+  become: yes
+  vars_files: 
+  - ../vars/credentials.yml
+  - ../vars/main.yml
+
+  roles:
+  - ../roles/add-elastic-repo
+  #- ../roles/webserver not necessary on already confifured webservers
+  - ../roles/metricbeat
+  - ../roles/filebeat
+  - ../roles/auditbeat
+  - ../roles/packetbeat
+  - ../roles/config-beats-webserver

@@ -1,0 +1,66 @@
+---
+- name: groupadd
+  group:
+    name: "www-data"
+    gid: "33"
+    system: true
+    state: "present"
+
+- name: useradd
+  user:
+    name: "www-data"
+    uid: "33"
+    group: "www-data"
+    home: "/var/www"
+    shell: "/usr/sbin/nologin"
+    system: true
+    create_home: false
+    state: "present"
+
+- name: apt-key add
+  apt_key:
+    url: "{{ item.url }}"
+    id: "{{ item.id }}"
+    state: "{{ item.state }}"
+  loop: "{{ _apt_key }}"
+  register: result
+  until: result is succeeded
+
+- name: install nignx
+  apt: 
+    name: nginx
+    state: latest
+    update_cache: yes
+
+- name: Copy NginX config
+  copy:
+    src: ../files/nginx.conf
+    dest: /etc/nginx/nginx.conf
+
+- name: starting nginx
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+## this is only for nginx in combination with kibana
+
+- name: Restart kibana
+  ansible.builtin.service:
+    name: kibana
+    state: restarted
+
+- name: Restart nginx
+  ansible.builtin.service:
+    name: nginx
+    state: restarted
+
+#- name: apt-get install
+#  apt:
+#    name: "{{ item.name }}"
+#    state: "{{ item.state }}"
+#  loop: "{{ _apt }}"
+#  register: result
+#  until: result is succeeded
+#  notify:
+#    - nginx | systemctl restart nginx.service

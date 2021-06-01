@@ -1,0 +1,15 @@
+- name: Destroy Router
+  os_router:
+    state: absent
+    name: "monitornet-Router"
+    network: "VMNet"
+    interfaces:
+      - net: "monitornet"
+        subnet: "monitornet-Subnet"
+        portip: "192.168.10.1"
+
+- name: Destroy Networks
+  os_network:
+    state: absent
+    name: monitornet
+

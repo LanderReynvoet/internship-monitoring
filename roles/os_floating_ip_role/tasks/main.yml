@@ -1,0 +1,8 @@
+
+- name: Associate floating IP's
+  os_floating_ip:
+      server: "{{ item.key }}"
+      reuse: yes
+      network: "{{ item.value.dest | default('VMNet') }}"
+      nat_destination: "{{ item.value.src | default(omit) }}"
+  with_dict: "{{ floating_ips }}"

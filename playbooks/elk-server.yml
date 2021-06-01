@@ -1,0 +1,25 @@
+servers_static:
+  elk-server:
+    image: debian-9.12.1-amd64
+    flavor: medium
+    port:
+      - "elk-port"
+    network:
+      - "win-monitoring"
+    persistent: no
+    security_group: elk
+    scheduler_hits:
+        physical: "true"
+    tags:
+      os: debian
+      hostname: elk-server
+
+floating_ips:
+  elk-server:
+    
+ports:
+  elk-port:
+    network: win-monitoring
+    ip: "10.10.40.2"
+    security_groups:
+     - 'elk'

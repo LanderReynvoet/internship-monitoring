@@ -1,0 +1,12 @@
+elastic_host: 0.0.0.0 #ip address
+elastic_port: 9200
+
+kibana_host: 0.0.0.0 #ip address
+kibana_port: 5601
+
+elastic_protocol: http
+
+filebeat_http_port: 5067
+auditbeat_http_port: 5068
+heartbeat_http_port: 5069
+packetbeat_http_port: 5070

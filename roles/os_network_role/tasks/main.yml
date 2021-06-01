@@ -1,0 +1,31 @@
+- name: Create Networks
+  os_network:
+    state: present
+    name: "{{ item.key }}"
+    external: "{{ item.value.external }}"
+  with_dict: "{{ networks }}"
+
+- name: Create Subnets
+  os_subnet:
+    state: present
+    network_name: "{{ item.key }}"
+    name: "{{ item.key }}-Subnet"
+    cidr: "{{ item.value.cidr }}"
+    gateway_ip: "{{ item.value.gateway }}"
+    dns_nameservers:
+      - 10.253.241.1
+      - 10.253.241.2
+    allocation_pool_start: "{{ item.value.first_ip }}"
+    allocation_pool_end: "{{ item.value.last_ip }}"
+  with_dict: "{{ networks }}"
+
+- name: Create Routers
+  os_router:
+    state: present
+    name: "{{ item.key }}-Router"
+    network: "{{ item.key.external_network | default('VMNet') }}"
+    interfaces:
+      - net: "{{ item.key }}"
+        subnet: "{{ item.key}}-Subnet"
+        portip: "{{ item.value.gateway }}"
+  with_dict: "{{ networks }}"

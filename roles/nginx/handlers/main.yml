@@ -1,0 +1,12 @@
+---
+- name: nginx | systemctl restart nginx.service
+  service:
+    name: "nginx.service"
+    state: "restarted"
+    enabled: true
+  loop: "{{ ansible_play_hosts }}"
+  delegate_to: "{{ item }}"
+  run_once: true
+  changed_when: false
+  ignore_errors: true
+

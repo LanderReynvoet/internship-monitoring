@@ -1,0 +1,16 @@
+- name: Spawn OpenStack Instances
+  os_server:
+    name: "{{ item.key }}"
+    state: present
+    image: "{{ item.value.image }}"
+    key_name: root-OpenStack-master
+    timeout: 2000
+    flavor: "{{ item.value.flavor }}"
+    auto_ip: no
+    nics: "{{ 'net-name=' + item.value.network | join(',net-name=') }}"
+    security_groups: "{{ item.value.security_group | default('default') }}"
+    meta: "{{ item.value.tags }}"
+    boot_from_volume: "{{ item.value.persistent }}"
+    volume_size: "{{ item.value.volume_size | default(omit) }}"
+    terminate_volume: yes
+  with_dict: "{{ servers }}"

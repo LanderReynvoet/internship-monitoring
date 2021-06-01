@@ -1,0 +1,9 @@
+- name: Create ports with static ip
+  os_port:
+    state: present
+    name: "{{ item.key }}"
+    network: "{{ item.value.network }}"
+    security_groups: "{{ item.value.security_groups | default('default')}}"
+    fixed_ips:
+      - ip_address: "{{ item.value.ip }}"
+  with_dict: "{{ ports }}"

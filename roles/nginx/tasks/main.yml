@@ -1,0 +1,24 @@
+---
+- name: include default variables
+  include_vars: "../vars/main.yml"
+
+- name: include release specific tasks
+  include_tasks: "{{ lookup('first_found', _params) }}"
+  vars:
+    _params:
+      files:
+        - debian.yml
+      paths:
+        - "."
+  ignore_errors: true
+
+- name: flush handlers
+  meta: flush_handlers
+
+- name: systemctl start nginx.service
+  service:
+    name: "nginx.service"
+    state: "started"
+    enabled: true
+  changed_when: false
+  ignore_errors: true
