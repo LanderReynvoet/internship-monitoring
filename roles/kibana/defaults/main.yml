@@ -12,4 +12,4 @@ elasticsearch_host: http://localhost:9200
 
 ## xpack security settings
 
-xpack_security_encryptionKey: mynameisanthonygonsalvesmainduniyameinakelahoo
+xpack_security_encryptionKey: randomstringoflettershere
